@@ -33,7 +33,6 @@ export default function HeroBackground() {
   return (
     <ErrorBoundary fallback={staticFallback}>
       <DarkVeil
-        hueShift={20}
         noiseIntensity={0.035}
         scanlineIntensity={0}
         speed={0.35}

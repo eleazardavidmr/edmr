@@ -17,6 +17,9 @@ uniform float uNoise;
 uniform float uScan;
 uniform float uScanFreq;
 uniform float uWarp;
+uniform vec3 uColorA;
+uniform vec3 uColorB;
+uniform vec3 uColorC;
 #define iTime uTime
 #define iResolution uResolution
 
@@ -66,12 +69,18 @@ void mainImage(out vec4 fragColor,in vec2 fragCoord){
 void main(){
     vec4 col;mainImage(col,gl_FragCoord.xy);
     col.rgb=hueShiftRGB(col.rgb,uHueShift);
+    float lum=dot(col.rgb,vec3(0.299,0.587,0.114));
+    vec3 tone=mix(uColorA,uColorB,smoothstep(0.0,0.55,lum));
+    tone=mix(tone,uColorC,smoothstep(0.55,1.0,lum));
+    col.rgb=tone;
     float scanline_val=sin(gl_FragCoord.y*uScanFreq)*0.5+0.5;
     col.rgb*=1.-(scanline_val*scanline_val)*uScan;
     col.rgb+=(rand(gl_FragCoord.xy+uTime)-0.5)*uNoise;
     gl_FragColor=vec4(clamp(col.rgb,0.0,1.0),1.0);
 }
 `;
+
+type RGB = [number, number, number];
 
 type Props = {
   hueShift?: number;
@@ -81,7 +90,17 @@ type Props = {
   scanlineFrequency?: number;
   warpAmount?: number;
   resolutionScale?: number;
+  /** Tono para las zonas más oscuras del patrón (RGB 0-1). Default: ember-950 de la paleta EDMR. */
+  colorA?: RGB;
+  /** Tono intermedio (RGB 0-1). Default: ember-800 de la paleta EDMR. */
+  colorB?: RGB;
+  /** Tono para los reflejos más brillantes (RGB 0-1). Default: ember-500 de la paleta EDMR. */
+  colorC?: RGB;
 };
+
+const DEFAULT_COLOR_A: RGB = [0.1529, 0.0392, 0.0314]; // #270A08
+const DEFAULT_COLOR_B: RGB = [0.4706, 0.1255, 0.1098]; // #78201C
+const DEFAULT_COLOR_C: RGB = [0.7765, 0.2078, 0.1804]; // #C6352E
 
 export default function DarkVeil({
   hueShift = 0,
@@ -90,7 +109,10 @@ export default function DarkVeil({
   speed = 0.5,
   scanlineFrequency = 0,
   warpAmount = 0,
-  resolutionScale = 1
+  resolutionScale = 1,
+  colorA = DEFAULT_COLOR_A,
+  colorB = DEFAULT_COLOR_B,
+  colorC = DEFAULT_COLOR_C
 }: Props) {
   const ref = useRef<HTMLCanvasElement>(null);
   useEffect(() => {
@@ -115,7 +137,10 @@ export default function DarkVeil({
         uNoise: { value: noiseIntensity },
         uScan: { value: scanlineIntensity },
         uScanFreq: { value: scanlineFrequency },
-        uWarp: { value: warpAmount }
+        uWarp: { value: warpAmount },
+        uColorA: { value: colorA },
+        uColorB: { value: colorB },
+        uColorC: { value: colorC }
       }
     });
 
@@ -141,6 +166,9 @@ export default function DarkVeil({
       program.uniforms.uScan.value = scanlineIntensity;
       program.uniforms.uScanFreq.value = scanlineFrequency;
       program.uniforms.uWarp.value = warpAmount;
+      program.uniforms.uColorA.value = colorA;
+      program.uniforms.uColorB.value = colorB;
+      program.uniforms.uColorC.value = colorC;
       renderer.render({ scene: mesh });
       frame = requestAnimationFrame(loop);
     };
@@ -151,6 +179,17 @@ export default function DarkVeil({
       cancelAnimationFrame(frame);
       window.removeEventListener('resize', resize);
     };
-  }, [hueShift, noiseIntensity, scanlineIntensity, speed, scanlineFrequency, warpAmount, resolutionScale]);
+  }, [
+    hueShift,
+    noiseIntensity,
+    scanlineIntensity,
+    speed,
+    scanlineFrequency,
+    warpAmount,
+    resolutionScale,
+    colorA,
+    colorB,
+    colorC
+  ]);
   return <canvas ref={ref} className="w-full h-full block" />;
 }

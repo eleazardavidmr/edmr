@@ -1,9 +1,11 @@
 import { whatsappLink, DEMO_MESSAGE } from '@/lib/site'
+import Logo from './Logo'
 
 export default function Nav() {
   return (
     <header className="absolute inset-x-0 top-0 z-30 flex items-center justify-between px-6 py-6 sm:px-10 sm:py-8">
-      <a href="#top" className="font-display text-lg tracking-tight text-cream">
+      <a href="#top" className="flex items-center gap-2 font-display text-lg tracking-tight text-cream">
+        <Logo className="h-7 w-7" />
         EDMR<span className="text-ember-500">.</span>
       </a>
 

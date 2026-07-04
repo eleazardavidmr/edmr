@@ -1,11 +1,13 @@
 import { whatsappLink, DEMO_MESSAGE, SITE } from '@/lib/site'
+import Logo from './Logo'
 
 export default function Footer() {
   return (
     <footer className="border-t border-ember-900/70 bg-ember-950 px-6 py-12 sm:px-10">
       <div className="mx-auto flex max-w-5xl flex-col gap-8 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <p className="font-display text-lg text-cream">
+          <p className="flex items-center gap-2 font-display text-lg text-cream">
+            <Logo className="h-7 w-7" />
             EDMR<span className="text-ember-500">.</span>
           </p>
           <p className="mt-2 max-w-xs text-sm text-cream-dim">
