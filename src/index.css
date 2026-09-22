@@ -56,6 +56,7 @@
     background-color: var(--color-ash);
     color: var(--color-cream);
     font-family: var(--font-body);
+    line-height: 1.6;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
@@ -92,9 +93,94 @@
     mix-blend-mode: overlay;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
+
+  /* --- Tipografía: tracking/leading afinados por tamaño óptico (grande = apretado, pequeño = abierto) --- */
+  .text-display-hero {
+    font-size: clamp(2.75rem, 5.4vw + 1.2rem, 5.25rem);
+    line-height: 1.03;
+    letter-spacing: -0.03em;
+  }
+
+  .text-display-h2 {
+    font-size: clamp(1.85rem, 2.6vw + 1.15rem, 3rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+
+  .text-display-h3 {
+    font-size: clamp(1.125rem, 0.6vw + 1rem, 1.375rem);
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+  }
+
+  .text-lead {
+    font-size: clamp(1.0625rem, 0.5vw + 0.95rem, 1.1875rem);
+    line-height: 1.55;
+    letter-spacing: 0;
+  }
+
+  .text-eyebrow {
+    font-size: 0.6875rem;
+    line-height: 1.4;
+    letter-spacing: 0.16em;
+  }
+
+  @media (min-width: 640px) {
+    .text-eyebrow {
+      font-size: 0.75rem;
+      letter-spacing: 0.18em;
+    }
+  }
+
+  /* --- Materiales translúcidos: capa flotante con jerarquía de peso ---
+     background-color/backdrop-filter llevan !important a propósito: estas clases
+     son la fuente de verdad del "material" y deben ganar sobre utilidades de
+     Tailwind aplicadas al mismo elemento (ej. bg-neutral-900 de SpotlightCard). */
+  .material-chrome {
+    background-color: rgba(12, 4, 3, 0.55) !important;
+    backdrop-filter: blur(20px) saturate(160%) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
+    border: 1px solid rgba(245, 239, 230, 0.08);
+  }
+
+  .material-card {
+    background-color: rgba(39, 10, 8, 0.55) !important;
+    backdrop-filter: blur(16px) saturate(140%) !important;
+    -webkit-backdrop-filter: blur(16px) saturate(140%) !important;
+  }
+
+  .material-chip {
+    background-color: rgba(245, 239, 230, 0.06) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+  }
+
+  .edge-fade-b {
+    mask-image: linear-gradient(to bottom, transparent, black 12%, black 88%, transparent);
+  }
+
+  /* Fondo unificado: en vez de bloques de color distintos por sección, una veladura radial
+     en los mismos tonos ember que se desvanece en los bordes — nunca un corte abrupto. */
+  .ember-wash {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(
+      60% 70% at 50% 0%,
+      rgba(39, 10, 8, 0.7) 0%,
+      rgba(39, 10, 8, 0.28) 45%,
+      transparent 75%
+    );
+    mask-image: linear-gradient(to bottom, transparent, black 18%, black 82%, transparent);
+    -webkit-mask-image: linear-gradient(to bottom, transparent, black 18%, black 82%, transparent);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
   *,
   *::before,
   *::after {
@@ -102,5 +188,36 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+}
+
+/* Materiales translúcidos caen a superficies casi sólidas cuando el sistema pide menos transparencia. */
+@media (prefers-reduced-transparency: reduce) {
+  .material-chrome,
+  .material-card,
+  .material-chip {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  .material-chrome {
+    background-color: rgba(12, 4, 3, 0.96) !important;
+  }
+
+  .material-card {
+    background-color: rgba(39, 10, 8, 0.96) !important;
+  }
+
+  .material-chip {
+    background-color: rgba(245, 239, 230, 0.12) !important;
+  }
+}
+
+/* Contraste alto: bordes definidos en vez de apoyarse solo en transparencia. */
+@media (prefers-contrast: more) {
+  .material-chrome,
+  .material-card {
+    border-color: rgba(245, 239, 230, 0.4);
+    border-width: 1px;
   }
 }

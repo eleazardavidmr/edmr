@@ -1,50 +1,100 @@
+import { motion } from 'framer-motion'
 import Reveal from './Reveal'
-import { pricingFeatures } from '@/data/content'
-import { whatsappLink, DEMO_MESSAGE } from '@/lib/site'
+import { plans } from '@/data/content'
+import { whatsappLink } from '@/lib/site'
+import Button from './Button'
+import { springDefault } from '@/lib/motion'
+
+function CheckIcon() {
+  return (
+    <svg viewBox="0 0 20 20" fill="none" className="h-5 w-5 shrink-0" aria-hidden="true">
+      <circle cx="10" cy="10" r="9" className="fill-ember-500/15" />
+      <path
+        d="M6.5 10.2l2.2 2.2 4.8-4.8"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className="text-ember-500"
+      />
+    </svg>
+  )
+}
 
 export default function Pricing() {
   return (
-    <section id="precio" className="relative overflow-hidden bg-ember-950 px-6 py-24 sm:px-10 sm:py-32">
-      <div className="pointer-events-none absolute -right-24 top-1/2 h-[28rem] w-[28rem] -translate-y-1/2 rounded-full bg-ember-500/10 blur-3xl" />
+    <section id="precio" className="relative overflow-hidden bg-ash px-6 py-24 sm:px-10 sm:py-32">
+      <div className="ember-wash" aria-hidden="true" />
+      <div className="pointer-events-none absolute -right-24 top-0 h-[28rem] w-[28rem] rounded-full bg-ember-500/10 blur-3xl" />
+      <div className="pointer-events-none absolute -left-24 bottom-0 h-[24rem] w-[24rem] rounded-full bg-flame-300/10 blur-3xl" />
 
       <div className="relative mx-auto max-w-5xl">
-        <Reveal>
-          <p className="font-display text-xs uppercase tracking-[0.3em] text-ember-500">Cómo funciona el pago</p>
-          <h2 className="mt-4 max-w-xl text-3xl font-medium leading-tight text-cream sm:text-5xl">
-            Un plan. Todo incluido. Sin letra pequeña.
+        <Reveal className="text-center sm:text-left">
+          <p className="font-display text-eyebrow text-ember-500">Planes</p>
+          <h2 className="mt-4 max-w-xl text-display-h2 font-medium text-cream sm:mx-0">
+            Un plan para cada etapa de tu negocio.
           </h2>
+          <p className="mt-4 max-w-lg text-lead text-cream-dim">
+            Precios en pesos colombianos. Todos incluyen dominio propio y botón de WhatsApp — vos elegís
+            cuánto sitio necesitás.
+          </p>
         </Reveal>
 
-        <div className="mt-16 grid gap-12 sm:grid-cols-[1fr_1.2fr] sm:gap-16">
-          <Reveal delay={0.05}>
-            <div className="flex items-baseline gap-2">
-              <span className="font-display text-5xl text-cream sm:text-6xl">$249.000</span>
-              <span className="font-display text-sm uppercase tracking-widest text-cream-dim">COP / mes</span>
-            </div>
-            <p className="mt-4 max-w-sm text-cream-dim">
-              Sin costo de instalación. Cancelás cuando quieras, sin contratos forzosos ni cobros
-              escondidos: lo que ves es lo que pagás.
-            </p>
-            <a
-              href={whatsappLink(DEMO_MESSAGE)}
-              target="_blank"
-              rel="noreferrer"
-              className="mt-8 inline-flex rounded-full bg-ember-500 px-8 py-4 font-display text-sm uppercase tracking-widest text-ash transition-transform hover:scale-[1.03] hover:bg-ember-400"
-            >
-              Quiero mi página
-            </a>
-          </Reveal>
+        <div className="mt-16 grid gap-6 sm:grid-cols-3 sm:items-start">
+          {plans.map((plan, index) => (
+            <Reveal key={plan.id} delay={index * 0.08} className="h-full">
+              <motion.article
+                whileHover={{ y: plan.highlight ? -10 : -6 }}
+                transition={springDefault}
+                className={`material-card relative flex h-full flex-col rounded-3xl p-8 ${
+                  plan.highlight
+                    ? 'border-2 border-ember-500 shadow-[0_0_60px_-15px_rgba(198,53,46,0.55)] sm:-translate-y-3'
+                    : 'border border-ember-900'
+                }`}
+              >
+                {plan.highlight && (
+                  <span className="material-chip absolute -top-3.5 left-1/2 -translate-x-1/2 rounded-full border border-ember-500/40 px-4 py-1.5 font-display text-eyebrow text-flame-300">
+                    Recomendado
+                  </span>
+                )}
 
-          <Reveal delay={0.15}>
-            <ul className="space-y-4 border-t border-ember-900/70 pt-8 sm:border-t-0 sm:border-l sm:pl-16 sm:pt-0">
-              {pricingFeatures.map((feature) => (
-                <li key={feature} className="flex gap-4 text-cream-dim">
-                  <span className="mt-1 font-display text-ember-500">＋</span>
-                  <span>{feature}</span>
-                </li>
-              ))}
-            </ul>
-          </Reveal>
+                <h3 className="text-display-h3 font-display text-cream">{plan.name}</h3>
+                <p className="mt-2 text-sm text-cream-dim">{plan.tagline}</p>
+
+                <div className="mt-6 flex items-baseline gap-2">
+                  <span className="font-display text-4xl text-cream">{plan.setupPrice}</span>
+                  <span className="text-xs uppercase tracking-widest text-cream-dim">COP inicial</span>
+                </div>
+                <p className="mt-1.5 text-sm text-cream-dim">
+                  {plan.monthlyPrice ? (
+                    <>
+                      + <span className="text-cream">{plan.monthlyPrice}</span> COP / mes
+                    </>
+                  ) : (
+                    plan.monthlyNote
+                  )}
+                </p>
+
+                <ul className="mt-8 flex-1 space-y-3.5">
+                  {plan.features.map((feature) => (
+                    <li key={feature} className="flex items-start gap-3 text-sm text-cream-dim">
+                      <CheckIcon />
+                      <span className="pt-0.5">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <Button
+                  href={whatsappLink(`¡Hola! Me interesa el plan ${plan.name} de EDMR para mi negocio.`)}
+                  variant={plan.highlight ? 'primary' : 'secondary'}
+                  external
+                  className="mt-8 w-full"
+                >
+                  Quiero el plan {plan.name}
+                </Button>
+              </motion.article>
+            </Reveal>
+          ))}
         </div>
       </div>
     </section>

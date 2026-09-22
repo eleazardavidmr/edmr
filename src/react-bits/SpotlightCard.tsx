@@ -1,4 +1,6 @@
 import React, { useRef, useState } from 'react';
+import { motion } from 'framer-motion';
+import { springDefault } from '@/lib/motion';
 
 interface Position {
   x: number;
@@ -46,24 +48,28 @@ const SpotlightCard: React.FC<SpotlightCardProps> = ({
   };
 
   return (
-    <div
+    <motion.div
       ref={divRef}
       onMouseMove={handleMouseMove}
       onFocus={handleFocus}
       onBlur={handleBlur}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      whileHover={{ y: -4 }}
+      whileTap={{ scale: 0.985 }}
+      transition={springDefault}
       className={`relative rounded-3xl border border-neutral-800 bg-neutral-900 overflow-hidden p-8 ${className}`}
     >
-      <div
-        className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 ease-in-out"
+      <motion.div
+        className="pointer-events-none absolute inset-0"
         style={{
-          opacity,
           background: `radial-gradient(circle at ${position.x}px ${position.y}px, ${spotlightColor}, transparent 80%)`
         }}
+        animate={{ opacity }}
+        transition={springDefault}
       />
       {children}
-    </div>
+    </motion.div>
   );
 };
 

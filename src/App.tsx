@@ -1,26 +1,39 @@
+import { lazy, Suspense } from 'react'
+import { MotionConfig } from 'framer-motion'
 import Nav from '@/components/Nav'
 import Hero from '@/components/Hero'
-import Marquee from '@/components/Marquee'
-import ProblemSolution from '@/components/ProblemSolution'
-import HowItWorks from '@/components/HowItWorks'
-import ForWhom from '@/components/ForWhom'
-import Pricing from '@/components/Pricing'
-import FinalCta from '@/components/FinalCta'
-import Footer from '@/components/Footer'
+
+const Marquee = lazy(() => import('@/components/Marquee'))
+const ProblemSolution = lazy(() => import('@/components/ProblemSolution'))
+const HowItWorks = lazy(() => import('@/components/HowItWorks'))
+const ForWhom = lazy(() => import('@/components/ForWhom'))
+const Pricing = lazy(() => import('@/components/Pricing'))
+const FinalCta = lazy(() => import('@/components/FinalCta'))
+const Footer = lazy(() => import('@/components/Footer'))
 
 function App() {
   return (
-    <div className="min-h-screen bg-ash">
-      <Nav />
-      <Hero />
-      <Marquee items={['Barberías', 'Peluquerías y salones', 'Agencias de viaje']} />
-      <ProblemSolution />
-      <HowItWorks />
-      <ForWhom />
-      <Pricing />
-      <FinalCta />
-      <Footer />
-    </div>
+    <MotionConfig reducedMotion="user">
+      <div className="min-h-screen bg-ash">
+        <Nav />
+        <main>
+          <Hero />
+          {/* Todo lo que está debajo del fold se divide en su propio chunk: no debe
+              competir con el hero por tiempo de parseo/ejecución en la carga inicial. */}
+          <Suspense fallback={null}>
+            <Marquee items={['Barberías', 'Peluquerías y salones', 'Agencias de viaje']} />
+            <ProblemSolution />
+            <HowItWorks />
+            <ForWhom />
+            <Pricing />
+            <FinalCta />
+          </Suspense>
+        </main>
+        <Suspense fallback={null}>
+          <Footer />
+        </Suspense>
+      </div>
+    </MotionConfig>
   )
 }
 

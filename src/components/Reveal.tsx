@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react'
-import AnimatedContent from '@/react-bits/AnimatedContent'
+import { motion, useReducedMotion } from 'framer-motion'
+import { springReveal } from '@/lib/motion'
 
 interface RevealProps {
   children: ReactNode
@@ -8,19 +9,19 @@ interface RevealProps {
   className?: string
 }
 
-/** Envuelve contenido con la animación de scroll estándar del sitio (fade + slide sutil). */
-export default function Reveal({ children, delay = 0, distance = 40, className = '' }: RevealProps) {
+/** Fade + slide sutil al entrar en viewport, con spring critically-damped (no easing de duración fija). */
+export default function Reveal({ children, delay = 0, distance = 28, className = '' }: RevealProps) {
+  const shouldReduceMotion = useReducedMotion()
+
   return (
-    <AnimatedContent
-      distance={distance}
-      direction="vertical"
-      duration={0.9}
-      ease="power3.out"
-      threshold={0.15}
-      delay={delay}
+    <motion.div
       className={className}
+      initial={{ opacity: 0, y: shouldReduceMotion ? 0 : distance }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ ...springReveal, delay }}
     >
       {children}
-    </AnimatedContent>
+    </motion.div>
   )
 }

@@ -14,8 +14,8 @@ export default function ForWhom() {
     <section id="para-quien" className="relative bg-ash px-6 py-24 sm:px-10 sm:py-32">
       <div className="mx-auto max-w-5xl">
         <Reveal>
-          <p className="font-display text-xs uppercase tracking-[0.3em] text-ember-500">Para quién es</p>
-          <h2 className="mt-4 max-w-xl text-3xl font-medium leading-tight text-cream sm:text-5xl">
+          <p className="font-display text-eyebrow text-ember-500">Para quién es</p>
+          <h2 className="mt-4 max-w-xl text-display-h2 font-medium text-cream">
             Hecho a la medida de negocios que viven de las citas.
           </h2>
         </Reveal>
@@ -24,13 +24,13 @@ export default function ForWhom() {
           {audiences.map((audience, index) => {
             const Icon = icons[audience.icon]
             return (
-              <Reveal key={audience.label} delay={index * 0.1}>
+              <Reveal key={audience.label} delay={index * 0.1} className="h-full">
                 <SpotlightCard
                   spotlightColor="rgba(198, 53, 46, 0.35)"
-                  className="!border-ember-900 !bg-ember-950 h-full"
+                  className="material-card !border-ember-900 h-full"
                 >
                   <Icon className="h-8 w-8 text-ember-500" />
-                  <h3 className="mt-6 font-display text-lg text-cream">{audience.label}</h3>
+                  <h3 className="mt-6 text-display-h3 font-display text-cream">{audience.label}</h3>
                   <p className="mt-3 text-sm text-cream-dim">{audience.detail}</p>
                 </SpotlightCard>
               </Reveal>

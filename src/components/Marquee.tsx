@@ -7,7 +7,7 @@ export default function Marquee({ items }: MarqueeProps) {
   const content = items.join('   ✦   ')
 
   return (
-    <div className="relative overflow-hidden border-y border-ember-900/70 bg-ember-950 py-3 sm:py-4">
+    <div className="relative overflow-hidden border-y border-ember-900/70 bg-ash py-3 sm:py-4">
       <div className="flex w-max animate-marquee whitespace-nowrap motion-reduce:animate-none">
         {[0, 1].map((i) => (
           <span

@@ -69,11 +69,56 @@ export const audiences: Audience[] = [
   },
 ]
 
-export const pricingFeatures = [
-  'Página web hecha a la medida, no una plantilla',
-  'Sistema de reservas y citas online, sin límite de reservas',
-  'Confirmaciones y recordatorios automáticos por WhatsApp',
-  'Hosting, dominio y mantenimiento incluidos',
-  'Cambios y ajustes menores incluidos cada mes',
-  'Soporte directo por WhatsApp cuando lo necesites',
+export interface PricingPlan {
+  id: string
+  name: string
+  tagline: string
+  setupPrice: string
+  monthlyPrice?: string
+  monthlyNote?: string
+  features: string[]
+  highlight?: boolean
+}
+
+export const plans: PricingPlan[] = [
+  {
+    id: 'light',
+    name: 'Light',
+    tagline: 'Para tener presencia online ya.',
+    setupPrice: '$150.000',
+    monthlyNote: 'Sin mensualidad (o $10.000/mes opcional)',
+    features: [
+      '1 landing page',
+      'Botón de WhatsApp integrado',
+      'Dominio propio incluido',
+    ],
+  },
+  {
+    id: 'core',
+    name: 'Core',
+    tagline: 'Para negocios que ya venden y quieren verse a la altura.',
+    setupPrice: '$220.000',
+    monthlyPrice: '$15.000',
+    features: [
+      'Sitio multi-sección (Inicio, Servicios, Nosotros, Contacto)',
+      'Galería/catálogo de productos o servicios',
+      'Formulario de contacto',
+      'Botón de WhatsApp integrado',
+      'Dominio propio incluido',
+    ],
+  },
+  {
+    id: 'pro',
+    name: 'Pro',
+    tagline: 'Para negocios que viven de las reservas.',
+    setupPrice: '$300.000',
+    monthlyPrice: '$20.000',
+    highlight: true,
+    features: [
+      'Sitio completo multi-página',
+      'Booking engine (reservas online)',
+      'Botón de WhatsApp integrado',
+      'Dominio propio incluido',
+    ],
+  },
 ]

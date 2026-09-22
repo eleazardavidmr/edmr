@@ -120,7 +120,11 @@ export default function DarkVeil({
     const parent = canvas.parentElement as HTMLElement;
 
     const renderer = new Renderer({
-      dpr: Math.min(window.devicePixelRatio, 2),
+      // resolutionScale reduce el buffer de dibujo (costo GPU), no el tamaño visible:
+      // Renderer.setSize aplica width/height como canvas.style en px, así que si
+      // metiéramos el scale ahí el canvas quedaría encogido a un rectángulo dentro
+      // del contenedor en vez de cubrirlo completo.
+      dpr: Math.min(window.devicePixelRatio, 2) * resolutionScale,
       canvas
     });
 
@@ -149,7 +153,7 @@ export default function DarkVeil({
     const resize = () => {
       const w = parent.clientWidth,
         h = parent.clientHeight;
-      renderer.setSize(w * resolutionScale, h * resolutionScale);
+      renderer.setSize(w, h);
       program.uniforms.uResolution.value.set(w, h);
     };
 
@@ -158,8 +162,16 @@ export default function DarkVeil({
 
     const start = performance.now();
     let frame = 0;
+    let lastFrameTime = 0;
+    // Un fondo decorativo no necesita 60fps: 24fps recorta a la mitad el costo de
+    // JS+GPU por segundo sin que el ojo note diferencia en un patrón tan lento.
+    const frameInterval = 1000 / 24;
 
-    const loop = () => {
+    const loop = (now: number) => {
+      frame = requestAnimationFrame(loop);
+      if (document.hidden || now - lastFrameTime < frameInterval) return;
+      lastFrameTime = now;
+
       program.uniforms.uTime.value = ((performance.now() - start) / 1000) * speed;
       program.uniforms.uHueShift.value = hueShift;
       program.uniforms.uNoise.value = noiseIntensity;
@@ -170,10 +182,9 @@ export default function DarkVeil({
       program.uniforms.uColorB.value = colorB;
       program.uniforms.uColorC.value = colorC;
       renderer.render({ scene: mesh });
-      frame = requestAnimationFrame(loop);
     };
 
-    loop();
+    frame = requestAnimationFrame(loop);
 
     return () => {
       cancelAnimationFrame(frame);
