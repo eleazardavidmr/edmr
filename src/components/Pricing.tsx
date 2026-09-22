@@ -53,7 +53,7 @@ export default function Pricing() {
                 }`}
               >
                 {plan.highlight && (
-                  <span className="material-chip absolute -top-3.5 left-1/2 -translate-x-1/2 rounded-full border border-ember-500/40 px-4 py-1.5 font-display text-eyebrow text-flame-300">
+                  <span className="material-chip-solid absolute -top-3.5 left-1/2 -translate-x-1/2 rounded-full border border-ember-500/40 px-4 py-1.5 font-display text-eyebrow text-flame-300">
                     Recomendado
                   </span>
                 )}
