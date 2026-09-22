@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 import Reveal from './Reveal'
-import { plans } from '@/data/content'
+import { plans, pricingNote } from '@/data/content'
 import { whatsappLink } from '@/lib/site'
 import Button from './Button'
 import { springDefault } from '@/lib/motion'
@@ -63,17 +63,9 @@ export default function Pricing() {
 
                 <div className="mt-6 flex items-baseline gap-2">
                   <span className="font-display text-4xl text-cream">{plan.setupPrice}</span>
-                  <span className="text-xs uppercase tracking-widest text-cream-dim">COP inicial</span>
+                  <span className="text-xs uppercase tracking-widest text-cream-dim">COP</span>
                 </div>
-                <p className="mt-1.5 text-sm text-cream-dim">
-                  {plan.monthlyPrice ? (
-                    <>
-                      + <span className="text-cream">{plan.monthlyPrice}</span> COP / mes
-                    </>
-                  ) : (
-                    plan.monthlyNote
-                  )}
-                </p>
+                <p className="mt-1.5 text-sm text-cream-dim">Pago único</p>
 
                 <ul className="mt-8 flex-1 space-y-3.5">
                   {plan.features.map((feature) => (
@@ -96,6 +88,15 @@ export default function Pricing() {
             </Reveal>
           ))}
         </div>
+
+        <Reveal delay={0.24} className="mt-12">
+          <p className="mx-auto max-w-2xl text-center text-sm leading-relaxed tracking-[0.005em] text-cream-dim">
+            <span className="font-display text-[0.6875rem] uppercase tracking-[0.16em] text-ember-500">
+              Sin sorpresas —{' '}
+            </span>
+            {pricingNote}
+          </p>
+        </Reveal>
       </div>
     </section>
   )

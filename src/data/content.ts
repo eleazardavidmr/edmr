@@ -74,8 +74,6 @@ export interface PricingPlan {
   name: string
   tagline: string
   setupPrice: string
-  monthlyPrice?: string
-  monthlyNote?: string
   features: string[]
   highlight?: boolean
 }
@@ -86,7 +84,6 @@ export const plans: PricingPlan[] = [
     name: 'Light',
     tagline: 'Para tener presencia online ya.',
     setupPrice: '$150.000',
-    monthlyNote: 'Sin mensualidad (o $10.000/mes opcional)',
     features: [
       '1 landing page',
       'Botón de WhatsApp integrado',
@@ -98,7 +95,6 @@ export const plans: PricingPlan[] = [
     name: 'Core',
     tagline: 'Para negocios que ya venden y quieren verse a la altura.',
     setupPrice: '$220.000',
-    monthlyPrice: '$15.000',
     features: [
       'Sitio multi-sección (Inicio, Servicios, Nosotros, Contacto)',
       'Galería/catálogo de productos o servicios',
@@ -112,7 +108,6 @@ export const plans: PricingPlan[] = [
     name: 'Pro',
     tagline: 'Para negocios que viven de las reservas.',
     setupPrice: '$300.000',
-    monthlyPrice: '$20.000',
     highlight: true,
     features: [
       'Sitio completo multi-página',
@@ -122,3 +117,6 @@ export const plans: PricingPlan[] = [
     ],
   },
 ]
+
+export const pricingNote =
+  'Sin mensualidades. Después del lanzamiento solo se cobra la renovación anual del dominio (aprox. $40.000–$60.000 COP al año) y, si más adelante querés agregar algo nuevo a tu sitio, se cobra únicamente por ese trabajo puntual — nunca como un cobro fijo recurrente.'
