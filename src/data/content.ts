@@ -1,15 +1,34 @@
-export const problems = [
-  'Agendas por WhatsApp que se te vuelven un mar de mensajes cruzados y citas dobles.',
-  'Clientes que buscan tu negocio, no encuentran dónde reservar y terminan donde sí pueden.',
-  'Una página armada con plantillas gratis que no se ve ni de cerca tan bien como tu trabajo.',
-  'Horas perdidas confirmando y recordando citas una por una, todos los días.',
+export const businessTypes = [
+  'Barberías',
+  'Restaurantes',
+  'Tiendas',
+  'Salones de belleza',
+  'Agencias de viaje',
 ]
 
-export const solutions = [
-  'Una página diseñada para tu negocio, no una plantilla reciclada de internet.',
-  'Reservas disponibles 24/7, aunque tengas el celular guardado o estés con un cliente.',
-  'Confirmaciones y recordatorios automáticos por WhatsApp, sin que nadie los escriba.',
-  'Todo por una mensualidad fija: hosting, soporte y ajustes incluidos.',
+export const problems = [
+  'Las reservas llegan por DM y se pierden entre mensajes.',
+  'El link de tu bio está vacío o no lleva a nada útil.',
+  'Te preguntan todos los días precios, carta y horarios.',
+  'Si tardas en contestar, el cliente se va con otro.',
+]
+
+export interface Solution {
+  text: string
+  note?: string
+}
+
+export const solutions: Solution[] = [
+  { text: 'Tus clientes reservan solos, a cualquier hora.', note: 'Plan Pro' },
+  { text: 'Tu carta, catálogo o servicios, con precios, en un solo link.' },
+  { text: 'Horario, ubicación y un botón para escribirte por WhatsApp.' },
+  { text: 'Un dominio con el nombre de tu negocio para poner en tu bio.' },
+]
+
+export const aboutPoints = [
+  'Hablas directo con quien construye tu web. Sin intermediarios.',
+  'Tomo máximo 3 clientes nuevos al mes. Así cumplo los plazos.',
+  'Si tu sitio lleva reservas, queda publicado en 7 días.',
 ]
 
 export interface Step {
@@ -21,51 +40,25 @@ export interface Step {
 export const steps: Step[] = [
   {
     number: '01',
-    title: 'Hablamos de tu negocio',
+    title: 'Hablamos 15 minutos',
     description:
-      'Una llamada corta y sin tecnicismos para entender cómo trabajás, a quién le atendés y qué necesitás resolver primero.',
+      'Una llamada por Meet. Me cuentas cómo funciona tu negocio y qué te está costando clientes hoy.',
   },
   {
     number: '02',
-    title: 'Te armamos tu página',
-    description:
-      'Diseñamos algo hecho a la medida de tu marca. Vos revisás, pedís ajustes y la aprobás antes de publicarla.',
+    title: 'Te muestro una propuesta',
+    description: 'Te enseño cómo se vería la página de tu negocio. Eliges el plan que te sirve.',
   },
   {
     number: '03',
-    title: 'Conectamos reservas y WhatsApp',
+    title: 'La construyo',
     description:
-      'Tus clientes agendan solos desde la página. Reciben confirmación al instante y recordatorio automático antes de la cita.',
+      'Me pasas tus fotos, precios y horarios. Yo me encargo del resto y te muestro avances.',
   },
   {
     number: '04',
-    title: 'Vos te enfocás en atender',
-    description:
-      'Nosotros mantenemos todo funcionando de fondo: hosting, actualizaciones y soporte cuando lo necesites.',
-  },
-]
-
-export interface Audience {
-  label: string
-  detail: string
-  icon: 'scissors' | 'sparkle' | 'plane'
-}
-
-export const audiences: Audience[] = [
-  {
-    label: 'Barberías',
-    detail: 'Reservas por corte o combo, recordatorios automáticos y menos sillas vacías.',
-    icon: 'scissors',
-  },
-  {
-    label: 'Peluquerías y salones',
-    detail: 'Agenda por servicio y estilista, con confirmaciones que llegan solas por WhatsApp.',
-    icon: 'sparkle',
-  },
-  {
-    label: 'Agencias de viaje',
-    detail: 'Una página que vende tus planes, con formulario de reserva y seguimiento por WhatsApp.',
-    icon: 'plane',
+    title: 'Queda publicada',
+    description: 'Tu página sale con tu dominio. Pones el link en tu Instagram y en tu WhatsApp.',
   },
 ]
 
@@ -76,47 +69,50 @@ export interface PricingPlan {
   setupPrice: string
   features: string[]
   highlight?: boolean
+  badge?: string
 }
 
 export const plans: PricingPlan[] = [
   {
     id: 'light',
     name: 'Light',
-    tagline: 'Para tener presencia online ya.',
+    tagline: 'Para tener un link serio en tu bio.',
     setupPrice: '$150.000',
     features: [
-      '1 landing page',
-      'Botón de WhatsApp integrado',
+      'Una página con la información de tu negocio',
+      'Botón para escribirte por WhatsApp',
       'Dominio propio incluido',
     ],
   },
   {
     id: 'core',
     name: 'Core',
-    tagline: 'Para negocios que ya venden y quieren verse a la altura.',
+    tagline: 'Para mostrar lo que vendes.',
     setupPrice: '$220.000',
     features: [
-      'Sitio multi-sección (Inicio, Servicios, Nosotros, Contacto)',
-      'Galería/catálogo de productos o servicios',
+      'Varias secciones: Inicio, Servicios, Nosotros, Contacto',
+      'Galería o catálogo de tus productos o servicios',
       'Formulario de contacto',
-      'Botón de WhatsApp integrado',
+      'Botón de WhatsApp',
       'Dominio propio incluido',
     ],
   },
   {
     id: 'pro',
     name: 'Pro',
-    tagline: 'Para negocios que viven de las reservas.',
+    tagline: 'Para negocios que viven de las citas.',
     setupPrice: '$300.000',
     highlight: true,
+    badge: 'Con reservas',
     features: [
-      'Sitio completo multi-página',
-      'Booking engine (reservas online)',
-      'Botón de WhatsApp integrado',
+      'Sitio completo de varias páginas',
+      'Reservas en línea: tus clientes eligen día y hora',
+      'Botón de WhatsApp',
       'Dominio propio incluido',
+      'Publicado en 7 días',
     ],
   },
 ]
 
 export const pricingNote =
-  'Sin mensualidades. Después del lanzamiento solo se cobra la renovación anual del dominio (aprox. $40.000–$60.000 COP al año) y, si más adelante querés agregar algo nuevo a tu sitio, se cobra únicamente por ese trabajo puntual — nunca como un cobro fijo recurrente.'
+  'Solo pagas la renovación del dominio una vez al año, entre $40.000 y $60.000 COP. Si después de publicar quieres cambios o secciones nuevas, te cobro solo ese trabajo.'

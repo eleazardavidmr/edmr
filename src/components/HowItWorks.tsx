@@ -7,10 +7,8 @@ export default function HowItWorks() {
       <div className="ember-wash" aria-hidden="true" />
       <div className="relative mx-auto max-w-5xl">
         <Reveal>
-          <p className="font-display text-eyebrow text-ember-500">Cómo funciona</p>
-          <h2 className="mt-4 max-w-xl text-display-h2 font-medium text-cream">
-            Cuatro pasos, sin vueltas.
-          </h2>
+          <p className="font-display text-eyebrow text-ember-500">Cómo trabajo</p>
+          <h2 className="mt-4 max-w-xl text-display-h2 font-medium text-cream">Cuatro pasos.</h2>
         </Reveal>
 
         <div className="mt-16 divide-y divide-ember-900/70 border-t border-ember-900/70">

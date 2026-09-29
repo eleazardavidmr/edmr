@@ -1,8 +1,9 @@
 import { motion, useMotionTemplate, useScroll, useTransform } from 'framer-motion'
-import { whatsappLink, DEMO_MESSAGE } from '@/lib/site'
+import { callLink, contactLink } from '@/lib/site'
 import { usePrefersReducedTransparency } from '@/lib/usePrefersReducedTransparency'
 import Logo from './Logo'
 import Button from './Button'
+import { WhatsAppIcon } from './icons'
 
 export default function Nav() {
   const { scrollY } = useScroll()
@@ -27,11 +28,14 @@ export default function Nav() {
           EDMR<span className="text-ember-500">.</span>
         </a>
 
-        <Button href={whatsappLink(DEMO_MESSAGE)} variant="secondary" size="sm" external>
-          <span className="hidden sm:inline">Agenda una demo</span>
-          <span className="sm:hidden">Demo</span>
-          <span aria-hidden="true">→</span>
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button href={contactLink} variant="secondary" size="icon" external ariaLabel="Escríbeme por WhatsApp">
+            <WhatsAppIcon className="h-4 w-4" />
+          </Button>
+          <Button href={callLink} size="sm" external>
+            Agendar<span className="hidden sm:inline"> llamada</span>
+          </Button>
+        </div>
       </motion.div>
     </header>
   )

@@ -3,7 +3,7 @@ import { motion } from 'framer-motion'
 import { springSnappy } from '@/lib/motion'
 
 type Variant = 'primary' | 'secondary' | 'ghost'
-type Size = 'md' | 'sm'
+type Size = 'md' | 'sm' | 'icon'
 
 interface ButtonProps {
   href: string
@@ -12,6 +12,7 @@ interface ButtonProps {
   size?: Size
   external?: boolean
   className?: string
+  ariaLabel?: string
 }
 
 const variantClasses: Record<Variant, string> = {
@@ -23,6 +24,7 @@ const variantClasses: Record<Variant, string> = {
 const sizeClasses: Record<Size, string> = {
   md: 'px-8 py-4 text-sm',
   sm: 'px-4 py-2.5 text-xs',
+  icon: 'h-9 w-9 p-0',
 }
 
 /**
@@ -36,10 +38,12 @@ export default function Button({
   size = 'md',
   external = false,
   className = '',
+  ariaLabel,
 }: ButtonProps) {
   return (
     <motion.a
       href={href}
+      aria-label={ariaLabel}
       target={external ? '_blank' : undefined}
       rel={external ? 'noreferrer' : undefined}
       whileTap={{ scale: 0.96 }}

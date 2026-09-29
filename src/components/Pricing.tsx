@@ -32,11 +32,10 @@ export default function Pricing() {
         <Reveal className="text-center sm:text-left">
           <p className="font-display text-eyebrow text-ember-500">Planes</p>
           <h2 className="mt-4 max-w-xl text-display-h2 font-medium text-cream sm:mx-0">
-            Un plan para cada etapa de tu negocio.
+            Tres planes. Sin mensualidad.
           </h2>
           <p className="mt-4 max-w-lg text-lead text-cream-dim">
-            Precios en pesos colombianos. Todos incluyen dominio propio y botón de WhatsApp — vos elegís
-            cuánto sitio necesitás.
+            Precios en pesos colombianos. Todos incluyen dominio propio y botón de WhatsApp.
           </p>
         </Reveal>
 
@@ -52,9 +51,9 @@ export default function Pricing() {
                     : 'border border-ember-900'
                 }`}
               >
-                {plan.highlight && (
-                  <span className="material-chip-solid absolute -top-3.5 left-1/2 -translate-x-1/2 rounded-full border border-ember-500/40 px-4 py-1.5 font-display text-eyebrow text-flame-300">
-                    Recomendado
+                {plan.badge && (
+                  <span className="material-chip-solid absolute -top-3.5 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full border border-ember-500/40 px-4 py-1.5 font-display text-eyebrow text-flame-300">
+                    {plan.badge}
                   </span>
                 )}
 
@@ -65,7 +64,7 @@ export default function Pricing() {
                   <span className="font-display text-4xl text-cream">{plan.setupPrice}</span>
                   <span className="text-xs uppercase tracking-widest text-cream-dim">COP</span>
                 </div>
-                <p className="mt-1.5 text-sm text-cream-dim">Pago único</p>
+                <p className="mt-1.5 text-sm text-cream-dim">Pago inicial</p>
 
                 <ul className="mt-8 flex-1 space-y-3.5">
                   {plan.features.map((feature) => (
@@ -77,12 +76,12 @@ export default function Pricing() {
                 </ul>
 
                 <Button
-                  href={whatsappLink(`¡Hola! Me interesa el plan ${plan.name} de EDMR para mi negocio.`)}
+                  href={whatsappLink(`Hola Eleazar, quiero saber más del plan ${plan.name} para mi negocio.`)}
                   variant={plan.highlight ? 'primary' : 'secondary'}
                   external
                   className="mt-8 w-full"
                 >
-                  Quiero el plan {plan.name}
+                  Preguntar por {plan.name}
                 </Button>
               </motion.article>
             </Reveal>
@@ -92,7 +91,7 @@ export default function Pricing() {
         <Reveal delay={0.24} className="mt-12">
           <p className="mx-auto max-w-2xl text-center text-sm leading-relaxed tracking-[0.005em] text-cream-dim">
             <span className="font-display text-[0.6875rem] uppercase tracking-[0.16em] text-ember-500">
-              Sin sorpresas —{' '}
+              Sin mensualidad.{' '}
             </span>
             {pricingNote}
           </p>

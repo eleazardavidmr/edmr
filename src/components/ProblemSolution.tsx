@@ -6,9 +6,9 @@ export default function ProblemSolution() {
     <section id="problema" className="relative bg-ash px-6 py-24 sm:px-10 sm:py-32">
       <div className="mx-auto max-w-5xl">
         <Reveal>
-          <p className="font-display text-eyebrow text-ember-500">El problema real</p>
+          <p className="font-display text-eyebrow text-ember-500">Lo que cambia</p>
           <h2 className="mt-4 max-w-2xl text-display-h2 font-medium text-cream">
-            No es que no sepas atender clientes. Es que tu negocio no tiene dónde recibirlos online.
+            Tus clientes ya te buscan. Hoy no tienen dónde resolver sin escribirte.
           </h2>
         </Reveal>
 
@@ -26,12 +26,19 @@ export default function ProblemSolution() {
           </Reveal>
 
           <Reveal delay={0.15}>
-            <h3 className="font-display text-eyebrow text-ember-500">Con EDMR</h3>
+            <h3 className="font-display text-eyebrow text-ember-500">Con tu página</h3>
             <ul className="mt-6 space-y-5">
               {solutions.map((item) => (
-                <li key={item} className="flex gap-4 text-cream">
+                <li key={item.text} className="flex gap-4 text-cream">
                   <span className="mt-1 font-display text-ember-500">✓</span>
-                  <span>{item}</span>
+                  <span>
+                    {item.text}
+                    {item.note && (
+                      <span className="ml-2 whitespace-nowrap font-display text-eyebrow uppercase text-flame-300">
+                        {item.note}
+                      </span>
+                    )}
+                  </span>
                 </li>
               ))}
             </ul>

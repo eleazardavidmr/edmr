@@ -1,4 +1,4 @@
-import { whatsappLink, DEMO_MESSAGE, SITE } from '@/lib/site'
+import { callLink, contactLink, SITE } from '@/lib/site'
 import Logo from './Logo'
 
 export default function Footer() {
@@ -11,21 +11,25 @@ export default function Footer() {
             EDMR<span className="text-ember-500">.</span>
           </p>
           <p className="mt-2 max-w-xs text-sm text-cream-dim">
-            Páginas, reservas y WhatsApp automático para negocios locales de {SITE.city}.
+            EDMR es {SITE.owner}. Páginas web para negocios locales en Cali, desde {SITE.since}.
           </p>
         </div>
 
         <div className="flex flex-col gap-2 text-sm text-cream-dim sm:items-end">
-          <a href={whatsappLink(DEMO_MESSAGE)} target="_blank" rel="noreferrer" className="transition-colors hover:text-ember-500">
+          <a href={contactLink} target="_blank" rel="noreferrer" className="transition-colors hover:text-ember-500">
             WhatsApp
+          </a>
+          <a href={callLink} target="_blank" rel="noreferrer" className="transition-colors hover:text-ember-500">
+            Agendar llamada
           </a>
           <span>{SITE.city}</span>
         </div>
       </div>
 
-      <div className="mx-auto mt-10 flex max-w-5xl flex-col-reverse items-center justify-between gap-4 border-t border-ember-900/70 pt-6 text-xs text-cream-dim/70 sm:flex-row">
-        <span>© {new Date().getFullYear()} EDMR. Todos los derechos reservados.</span>
-        <span>Diseñado y construido en Cali.</span>
+      <div className="mx-auto mt-10 flex max-w-5xl items-center justify-center border-t border-ember-900/70 pt-6 text-xs text-cream-dim/70 sm:justify-start">
+        <span>
+          © {new Date().getFullYear()} EDMR · {SITE.owner}
+        </span>
       </div>
     </footer>
   )
