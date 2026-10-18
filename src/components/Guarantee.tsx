@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { Fragment, useRef } from 'react'
 import { gsap, useGSAP, MOTION_OK } from '@/lib/gsap'
 
 const lines = [
@@ -66,17 +66,19 @@ export default function Guarantee() {
           </svg>
         </div>
 
-        <h2 data-ink-block className="mt-8 text-mega" aria-label="Si no te gusta, te devuelvo el anticipo.">
+        <h2 data-ink-block className="mt-8 text-mega">
           {lines.map((line, li) => (
-            <span key={li} className="block" aria-hidden="true">
+            <span key={li} className="block">
               {line.map((word, wi) => (
-                <span
-                  key={wi}
-                  data-ink
-                  className="mr-[0.22em] inline-block bg-[length:200%_100%] bg-clip-text bg-[position:0%_0%] text-transparent [background-image:linear-gradient(90deg,var(--color-cream)_50%,rgba(245,239,230,0.1)_50%)] last:mr-0"
-                >
-                  {word}
-                </span>
+                // Espacio real entre palabras (no solo margen): así el texto se lee bien sin CSS.
+                <Fragment key={wi}>
+                  <span
+                    data-ink
+                    className="inline-block bg-[length:200%_100%] bg-clip-text bg-[position:0%_0%] text-transparent [background-image:linear-gradient(90deg,var(--color-cream)_50%,rgba(245,239,230,0.1)_50%)]"
+                  >
+                    {word}
+                  </span>{' '}
+                </Fragment>
               ))}
             </span>
           ))}

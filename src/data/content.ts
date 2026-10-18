@@ -102,3 +102,42 @@ export const steps: Step[] = [
     description: 'Tu página sale con tu dominio. Pones el link en tu Instagram y en tu WhatsApp.',
   },
 ]
+
+/** Preguntas frecuentes: también alimentan el JSON-LD de index.html (mantener ambos iguales). */
+export interface Faq {
+  question: string
+  answer: string
+}
+
+export const faqs: Faq[] = [
+  {
+    question: '¿Cuánto cuesta una página web para mi negocio?',
+    answer:
+      'Depende de lo que necesite tu negocio: no es lo mismo una página con tu carta que una con reservas en línea. En la llamada te muestro una propuesta y te digo el precio exacto antes de empezar.',
+  },
+  {
+    question: '¿Cuánto tiempo tarda hacer la página?',
+    answer: 'Un sitio con reservas en línea queda publicado en 7 días.',
+  },
+  {
+    question: '¿Haces páginas web para barberías, restaurantes y tiendas en Cali?',
+    answer:
+      'Sí. Trabajo con negocios locales como barberías, restaurantes, tiendas, salones de belleza y agencias de viaje. Vivo en Cali y hago páginas desde 2023.',
+  },
+  {
+    question: '¿Necesito saber de tecnología?',
+    answer: 'No. Me pasas tus fotos, precios y horarios, y yo me encargo del resto.',
+  },
+  {
+    question: '¿La página incluye dominio propio?',
+    answer: 'Sí. Tu página sale publicada con un dominio con el nombre de tu negocio, para que lo pongas en tu Instagram y en tu WhatsApp.',
+  },
+  {
+    question: '¿Qué pasa si no me gusta?',
+    answer: 'Cuando tu sitio esté terminado, lo revisas. Si no te gusta, te devuelvo el anticipo completo.',
+  },
+  {
+    question: '¿Puedo pedir cambios después de publicada?',
+    answer: 'Sí. Los cambios o secciones nuevas después de publicar se cotizan aparte, según el trabajo.',
+  },
+]

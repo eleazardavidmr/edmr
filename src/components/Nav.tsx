@@ -23,6 +23,7 @@ export default function Nav() {
   useGSAP(
     () => {
       gsap.matchMedia().add(MOTION_OK, () => {
+        gsap.set(root.current, { visibility: 'visible' })
         gsap.from('[data-nav-item]', {
           y: -24,
           autoAlpha: 0,
@@ -37,7 +38,7 @@ export default function Nav() {
   )
 
   return (
-    <header ref={root} className="fixed inset-x-0 top-0 z-40 px-4 pt-4 sm:px-6 sm:pt-6">
+    <header ref={root} data-intro className="fixed inset-x-0 top-0 z-40 px-4 pt-4 sm:px-6 sm:pt-6">
       <motion.div
         style={{ background, backdropFilter, WebkitBackdropFilter: backdropFilter, borderColor }}
         className="mx-auto flex max-w-7xl items-center justify-between rounded-full border px-3 py-2 sm:px-5 sm:py-2.5"

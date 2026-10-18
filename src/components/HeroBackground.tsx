@@ -5,6 +5,7 @@ import { usePrefersReducedMotion } from '@/lib/usePrefersReducedMotion'
 const DarkVeil = lazy(() => import('@/react-bits/DarkVeil'))
 
 function supportsWebGL(): boolean {
+  if (typeof document === 'undefined') return false
   try {
     const canvas = document.createElement('canvas')
     return !!(canvas.getContext('webgl2') || canvas.getContext('webgl'))

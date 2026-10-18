@@ -10,6 +10,7 @@ import Features from '@/components/Features'
 import About from '@/components/About'
 import Process from '@/components/Process'
 import Guarantee from '@/components/Guarantee'
+import Faq from '@/components/Faq'
 import FinalCta from '@/components/FinalCta'
 import Footer from '@/components/Footer'
 
@@ -35,6 +36,7 @@ function App() {
           {/* TODO(Eleazar): sección de proyectos oculta hasta confirmar cuáles se pueden mostrar. */}
           <Process />
           <Guarantee />
+          <Faq />
           <FinalCta />
         </main>
         <Footer />

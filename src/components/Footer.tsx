@@ -37,7 +37,7 @@ export default function Footer() {
         <div className="flex flex-col gap-2 text-sm text-cream-dim">
           <span className="font-display text-eyebrow uppercase text-ember-500">Dónde</span>
           <span>{SITE.city}</span>
-          <span>
+          <span suppressHydrationWarning>
             © {new Date().getFullYear()} EDMR · {SITE.owner}
           </span>
         </div>

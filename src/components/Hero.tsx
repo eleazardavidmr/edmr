@@ -30,6 +30,9 @@ export default function Hero() {
       const mm = gsap.matchMedia()
 
       mm.add(MOTION_OK, () => {
+        // El HTML pre-renderizado llega oculto por CSS (.js [data-intro]) para que no "parpadee"
+        // antes de la entrada; aquí se vuelve visible justo antes de animar.
+        gsap.set('[data-intro]', { visibility: 'visible' })
         const headline = SplitText.create('[data-hero-split]', { type: 'chars', mask: 'chars' })
 
         const intro = gsap.timeline({ defaults: { ease: 'expo.out' } })
@@ -67,7 +70,7 @@ export default function Hero() {
 
   return (
     <section id="top" ref={root} className="relative min-h-[100svh] overflow-hidden bg-ash">
-      <div data-hero-bg className="pointer-events-none absolute inset-0 opacity-80 mix-blend-screen">
+      <div data-hero-bg data-intro className="pointer-events-none absolute inset-0 opacity-80 mix-blend-screen">
         <HeroBackground />
       </div>
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-ash/40 via-transparent to-ash" />
@@ -75,16 +78,20 @@ export default function Hero() {
 
       <div
         data-hero-content
+        data-intro
         className="relative z-10 mx-auto flex min-h-[100svh] max-w-7xl origin-top flex-col justify-end px-5 pb-10 pt-28 sm:px-10 sm:pb-14"
       >
         <div className="mb-6 flex items-center justify-between gap-4 font-display text-eyebrow uppercase text-cream-dim sm:mb-10">
-          <span data-hero-meta>{SITE.owner} · Desarrollador web</span>
+          {/* H1 con lo que la gente busca en Google; el titular grande de abajo es la frase de marca. */}
+          <h1 data-hero-meta className="font-display text-eyebrow font-normal">
+            Páginas web para negocios en Cali
+          </h1>
           <span data-hero-meta className="hidden sm:inline">
-            {SITE.city} · desde {SITE.since}
+            {SITE.owner} · desde {SITE.since}
           </span>
         </div>
 
-        <h1 className="text-mega split-safe text-cream">
+        <p className="text-mega split-safe text-cream">
           <span data-hero-split className="block">
             Que tus clientes
           </span>
@@ -108,12 +115,12 @@ export default function Hero() {
           <span data-hero-split className="block">
             tu respuesta<span className="text-ember-500">.</span>
           </span>
-        </h1>
+        </p>
 
         <div className="mt-8 grid items-end gap-8 sm:mt-12 xl:grid-cols-[1fr_auto_auto] xl:gap-12">
           <p data-hero-copy className="split-safe max-w-md text-lead text-cream-dim">
-            Soy Eleazar. Hago páginas web para barberías, restaurantes, tiendas y agencias. Tus clientes
-            ven lo que ofreces, reservan y te escriben por WhatsApp.
+            Soy Eleazar, desarrollador web en Cali. Hago páginas para barberías, restaurantes, tiendas y
+            agencias: tus clientes ven lo que ofreces, reservan y te escriben por WhatsApp.
           </p>
 
           <div className="flex flex-col gap-3 sm:flex-row">

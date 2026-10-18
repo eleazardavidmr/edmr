@@ -265,3 +265,37 @@
 .has-cursor * {
   cursor: none !important;
 }
+
+/* Entrada del hero/nav: el HTML pre-renderizado se pinta antes que el JS. Lo ocultamos
+   (solo si hay JS y se permite movimiento) para que GSAP lo anime sin un "parpadeo" previo.
+   Red de seguridad: si el JS no llega a correr, a los 3.5s se muestra igual. */
+@media (prefers-reduced-motion: no-preference) {
+  .js [data-intro] {
+    visibility: hidden;
+    animation: intro-failsafe 0s 3.5s forwards;
+  }
+}
+
+@keyframes intro-failsafe {
+  to {
+    visibility: visible;
+  }
+}
+
+/* FAQ: apertura animada de <details> donde el navegador lo soporta (Chrome 131+, Safari 18.4+).
+   En el resto abre al instante, que también está bien. */
+.faq-item {
+  interpolate-size: allow-keywords;
+}
+
+.faq-item::details-content {
+  height: 0;
+  overflow: clip;
+  transition:
+    height 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+    content-visibility 0.5s allow-discrete;
+}
+
+.faq-item[open]::details-content {
+  height: auto;
+}
