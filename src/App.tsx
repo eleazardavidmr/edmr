@@ -1,42 +1,44 @@
-import { lazy, Suspense } from 'react'
 import { MotionConfig } from 'framer-motion'
 import Nav from '@/components/Nav'
+import Cursor from '@/components/Cursor'
+import ScrollProgress from '@/components/ScrollProgress'
+import SmoothScroll from '@/components/SmoothScroll'
 import Hero from '@/components/Hero'
-import { businessTypes } from '@/data/content'
+import Marquee from '@/components/Marquee'
+import PhoneStory from '@/components/PhoneStory'
+import Features from '@/components/Features'
+import About from '@/components/About'
+import Process from '@/components/Process'
+import Guarantee from '@/components/Guarantee'
+import FinalCta from '@/components/FinalCta'
+import Footer from '@/components/Footer'
 
-const Marquee = lazy(() => import('@/components/Marquee'))
-const ProblemSolution = lazy(() => import('@/components/ProblemSolution'))
-const About = lazy(() => import('@/components/About'))
-const Pricing = lazy(() => import('@/components/Pricing'))
-const Guarantee = lazy(() => import('@/components/Guarantee'))
-const HowItWorks = lazy(() => import('@/components/HowItWorks'))
-const FinalCta = lazy(() => import('@/components/FinalCta'))
-const Footer = lazy(() => import('@/components/Footer'))
-
+/*
+ * Sin lazy() por sección: con ScrollSmoother y pins, la altura total de la página tiene
+ * que existir desde el primer render o los ScrollTriggers calculan posiciones falsas.
+ * Lo pesado (el shader WebGL del hero) sigue cargándose diferido dentro de HeroBackground.
+ */
 function App() {
   return (
     <MotionConfig reducedMotion="user">
-      <div className="min-h-screen bg-ash">
-        <Nav />
-        <main>
+      {/* Elementos fijos van fuera del wrapper de ScrollSmoother (que usa transform). */}
+      <ScrollProgress />
+      <Nav />
+      <Cursor />
+      <SmoothScroll>
+        <main className="overflow-x-clip bg-ash">
           <Hero />
-          {/* Todo lo que está debajo del fold se divide en su propio chunk: no debe
-              competir con el hero por tiempo de parseo/ejecución en la carga inicial. */}
-          <Suspense fallback={null}>
-            <Marquee items={businessTypes} />
-            <ProblemSolution />
-            <About />
-            {/* TODO(Eleazar): sección de proyectos oculta hasta confirmar cuáles se pueden mostrar. */}
-            <Pricing />
-            <Guarantee />
-            <HowItWorks />
-            <FinalCta />
-          </Suspense>
+          <Marquee />
+          <PhoneStory />
+          <Features />
+          <About />
+          {/* TODO(Eleazar): sección de proyectos oculta hasta confirmar cuáles se pueden mostrar. */}
+          <Process />
+          <Guarantee />
+          <FinalCta />
         </main>
-        <Suspense fallback={null}>
-          <Footer />
-        </Suspense>
-      </div>
+        <Footer />
+      </SmoothScroll>
     </MotionConfig>
   )
 }

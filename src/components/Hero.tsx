@@ -1,56 +1,144 @@
-import { motion } from 'framer-motion'
-import WordReveal from './WordReveal'
+import { useRef } from 'react'
+import RotatingText from '@/react-bits/RotatingText'
 import HeroBackground from './HeroBackground'
 import Button from './Button'
-import { callLink, contactLink } from '@/lib/site'
+import { callLink, contactLink, SITE } from '@/lib/site'
+import { heroWords } from '@/data/content'
+import { gsap, SplitText, useGSAP, MOTION_OK } from '@/lib/gsap'
+
+function ScrollBadge() {
+  return (
+    <div data-hero-badge className="relative hidden h-28 w-28 shrink-0 xl:block" aria-hidden="true">
+      <svg data-hero-badge-ring viewBox="0 0 100 100" className="h-full w-full">
+        <defs>
+          <path id="hero-badge-circle" d="M50,50 m-38,0 a38,38 0 1,1 76,0 a38,38 0 1,1 -76,0" />
+        </defs>
+        <text className="fill-cream-dim font-display text-[8.5px] uppercase tracking-[0.32em]">
+          <textPath href="#hero-badge-circle">Desliza · Desliza · Desliza ·</textPath>
+        </text>
+      </svg>
+      <span className="absolute inset-0 flex items-center justify-center text-xl text-ember-500">↓</span>
+    </div>
+  )
+}
 
 export default function Hero() {
+  const root = useRef<HTMLElement>(null)
+
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia()
+
+      mm.add(MOTION_OK, () => {
+        const headline = SplitText.create('[data-hero-split]', { type: 'chars', mask: 'chars' })
+
+        const intro = gsap.timeline({ defaults: { ease: 'expo.out' } })
+        intro
+          .from('[data-hero-bg]', { autoAlpha: 0, duration: 1.6, ease: 'power2.out' }, 0)
+          .from(headline.chars, { yPercent: 110, duration: 1.2, stagger: 0.022 }, 0.15)
+          .from('[data-hero-pill]', { scale: 0.4, autoAlpha: 0, duration: 1, ease: 'back.out(1.8)' }, 0.55)
+          .from('[data-hero-meta]', { y: 16, autoAlpha: 0, duration: 0.9, stagger: 0.08 }, 0.6)
+          .from('[data-hero-cta]', { y: 24, autoAlpha: 0, duration: 0.9, stagger: 0.1 }, 0.85)
+          .from('[data-hero-badge]', { scale: 0, rotate: -90, autoAlpha: 0, duration: 1.2 }, 1)
+
+        SplitText.create('[data-hero-copy]', {
+          type: 'lines',
+          mask: 'lines',
+          autoSplit: true,
+          onSplit: (self) =>
+            gsap.from(self.lines, { yPercent: 100, duration: 1, stagger: 0.08, ease: 'expo.out', delay: 0.75 }),
+        })
+
+        gsap.to('[data-hero-badge-ring]', { rotate: 360, duration: 14, repeat: -1, ease: 'none' })
+
+        // Al salir del hero el titular se aleja y se apaga; el fondo baja más lento (profundidad).
+        const out = gsap.timeline({
+          scrollTrigger: { trigger: root.current, start: 'top top', end: 'bottom top', scrub: true },
+        })
+        out
+          .to('[data-hero-content]', { yPercent: -18, scale: 0.94, autoAlpha: 0.15, ease: 'none' }, 0)
+          .to('[data-hero-bg]', { yPercent: 25, scale: 1.12, ease: 'none' }, 0)
+      })
+
+      return () => mm.revert()
+    },
+    { scope: root },
+  )
+
   return (
-    <section id="top" className="relative flex min-h-[100svh] flex-col overflow-hidden bg-ash">
-      <div className="pointer-events-none absolute inset-0 opacity-70 mix-blend-screen">
+    <section id="top" ref={root} className="relative min-h-[100svh] overflow-hidden bg-ash">
+      <div data-hero-bg className="pointer-events-none absolute inset-0 opacity-80 mix-blend-screen">
         <HeroBackground />
       </div>
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-ash/10 to-ash" />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-ash/40 via-transparent to-ash" />
+      <div className="noise-overlay pointer-events-none absolute inset-0" />
 
-      <div className="relative z-10 flex flex-1 flex-col items-center justify-center px-6 pt-28 pb-16 text-center sm:px-10">
-        <span className="material-chip mb-6 flex max-w-xs flex-wrap items-center justify-center gap-x-2 gap-y-1.5 rounded-3xl border border-cream/10 px-4 py-2 text-center font-display text-eyebrow text-cream-dim sm:max-w-none sm:rounded-full sm:py-1.5">
-          <span>Eleazar Muñoz</span>
-          <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-ember-500 animate-flicker" />
-          <span>Desarrollador web en Cali</span>
-        </span>
+      <div
+        data-hero-content
+        className="relative z-10 mx-auto flex min-h-[100svh] max-w-7xl origin-top flex-col justify-end px-5 pb-10 pt-28 sm:px-10 sm:pb-14"
+      >
+        <div className="mb-6 flex items-center justify-between gap-4 font-display text-eyebrow uppercase text-cream-dim sm:mb-10">
+          <span data-hero-meta>{SITE.owner} · Desarrollador web</span>
+          <span data-hero-meta className="hidden sm:inline">
+            {SITE.city} · desde {SITE.since}
+          </span>
+        </div>
 
-        <h1 className="max-w-4xl text-display-hero font-medium text-cream">
-          <WordReveal text="Que tus clientes reserven" className="block" delayStep={0.05} />
-          <span className="mt-2 block bg-gradient-to-r from-ember-500 via-ember-400 to-flame-300 bg-clip-text text-transparent">
-            sin esperar tu respuesta.
+        <h1 className="text-mega split-safe text-cream">
+          <span data-hero-split className="block">
+            Que tus clientes
+          </span>
+          <span data-hero-pill className="my-[0.08em] block origin-left text-[0.62em] leading-none">
+            <RotatingText
+              texts={heroWords}
+              effect="slide"
+              highlight
+              highlightColor="#c6352e"
+              rotationInterval={2800}
+              staggerDuration={0.01}
+              staggerFrom="last"
+              splitBy="characters"
+              mainClassName="rounded-[0.35em] px-[0.3em] pb-[0.08em] pt-[0.02em] overflow-hidden"
+              transition={{ type: 'spring', damping: 34, stiffness: 520 }}
+            />
+          </span>
+          <span data-hero-split className="block text-flame-300">
+            sin esperar
+          </span>
+          <span data-hero-split className="block">
+            tu respuesta<span className="text-ember-500">.</span>
           </span>
         </h1>
 
-        <p className="mt-8 max-w-xl text-balance text-lead text-cream-dim">
-          Hago páginas web para barberías, restaurantes, tiendas y agencias. Tus clientes ven tus
-          servicios, tu carta o tu catálogo, reservan y te escriben por WhatsApp. Sin depender de que
-          contestes un DM.
-        </p>
+        <div className="mt-8 grid items-end gap-8 sm:mt-12 xl:grid-cols-[1fr_auto_auto] xl:gap-12">
+          <p data-hero-copy className="split-safe max-w-md text-lead text-cream-dim">
+            Soy Eleazar. Hago páginas web para barberías, restaurantes, tiendas y agencias. Tus clientes
+            ven lo que ofreces, reservan y te escriben por WhatsApp.
+          </p>
 
-        <div className="mt-10 flex w-full flex-col items-center gap-4 sm:w-auto sm:flex-row">
-          <Button href={callLink} external className="w-full sm:w-auto">
-            Agenda una llamada<span className="hidden sm:inline"> de 15 min</span>
-          </Button>
-          <Button href={contactLink} variant="ghost" external className="w-full sm:w-auto">
-            Escríbeme por WhatsApp
-          </Button>
+          <div className="flex flex-col gap-3 sm:flex-row">
+            <span data-hero-cta>
+              <Button href={contactLink} external className="w-full sm:w-auto">
+                Quiero mi página <span aria-hidden="true">→</span>
+              </Button>
+            </span>
+            <span data-hero-cta>
+              <Button href={callLink} variant="ghost" external className="w-full sm:w-auto">
+                Agendar llamada
+              </Button>
+            </span>
+          </div>
+
+          <ScrollBadge />
         </div>
-      </div>
 
-      <div className="relative z-10 flex justify-center pb-8">
-        <motion.span
-          className="flex flex-col items-center gap-2 text-cream-dim/70"
-          animate={{ y: [0, 6, 0] }}
-          transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
-        >
-          <span className="font-display text-eyebrow">Desliza</span>
-          <span className="h-8 w-px bg-gradient-to-b from-ember-500 to-transparent" />
-        </motion.span>
+        <p data-hero-meta className="mt-8 flex items-center gap-2 font-display text-eyebrow uppercase text-cream-dim">
+          <span className="relative flex h-2 w-2">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-ember-500 opacity-60 motion-reduce:hidden" />
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-ember-500" />
+          </span>
+          Tomo máximo 3 clientes nuevos al mes
+        </p>
       </div>
     </section>
   )

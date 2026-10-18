@@ -1,25 +1,29 @@
-interface MarqueeProps {
-  items: string[]
-}
+import ScrollVelocity from '@/react-bits/ScrollVelocity'
+import { businessRows } from '@/data/content'
 
-/** Cinta editorial en movimiento continuo — el detalle inesperado entre el hero y el resto de la página. */
-export default function Marquee({ items }: MarqueeProps) {
-  const content = items.join('   ✦   ')
+// Sin contorno (text-stroke): en fuentes variables deja ver los contornos internos superpuestos.
+const rows = businessRows.map((row, i) => (
+  <span key={row} className={i % 2 ? 'text-ember-500' : 'text-cream'}>
+    {row}
+  </span>
+))
 
+/** Rubros en dos cintas opuestas: se aceleran y se inclinan con la velocidad del scroll. */
+export default function Marquee() {
   return (
-    <div className="relative overflow-hidden border-y border-ember-900/70 bg-ash py-3 sm:py-4">
-      <div className="flex w-max animate-marquee whitespace-nowrap motion-reduce:animate-none">
-        {[0, 1].map((i) => (
-          <span
-            key={i}
-            aria-hidden={i === 1}
-            className="mx-4 font-display text-xs uppercase tracking-[0.25em] text-cream-dim sm:text-sm"
-          >
-            {content}
-            <span className="mx-4">✦</span>
-          </span>
-        ))}
-      </div>
-    </div>
+    <section aria-label="Tipos de negocio" className="relative overflow-hidden border-y border-ember-900/70 bg-ash py-8 sm:py-12">
+      <ScrollVelocity
+        texts={rows}
+        velocity={40}
+        numCopies={4}
+        gap={32}
+        skewWithVelocity={8}
+        fadeEdges
+        draggable
+        className="font-heading"
+        scrollerClassName="!font-heading !text-[clamp(2.75rem,9vw,7rem)] !leading-[1.05] !font-bold !tracking-[-0.04em]"
+        parallaxClassName="py-1"
+      />
+    </section>
   )
 }

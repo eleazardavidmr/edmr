@@ -2,6 +2,7 @@
 
 @import '@fontsource-variable/inter';
 @import '@fontsource-variable/google-sans-code';
+@import '@fontsource-variable/bricolage-grotesque/standard.css';
 
 @theme {
   /* Dark Fire palette */
@@ -17,6 +18,7 @@
   --color-cream-dim: #cbb8ac;
 
   --font-display: 'Google Sans Code Variable', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  --font-heading: 'Bricolage Grotesque Variable', 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
   --font-body: 'Inter Variable', 'Inter', ui-sans-serif, system-ui, sans-serif;
 
   --animate-flicker: flicker 6s ease-in-out infinite;
@@ -48,7 +50,7 @@
   }
 
   html {
-    scroll-behavior: smooth;
+    /* Sin scroll-behavior: smooth: choca con ScrollTrigger/ScrollSmoother. */
     background-color: var(--color-ash);
   }
 
@@ -70,7 +72,7 @@
   h2,
   h3,
   h4 {
-    font-family: var(--font-display);
+    font-family: var(--font-heading);
     text-wrap: balance;
   }
 }
@@ -95,6 +97,32 @@
   }
 
   /* --- Tipografía: tracking/leading afinados por tamaño óptico (grande = apretado, pequeño = abierto) --- */
+  /* Escala "editorial": titulares que ocupan el ancho. Bricolage gana carácter al
+     apretar el ancho (wdth) en tamaños grandes, así que lo hacemos con el tamaño. */
+  .text-mega {
+    font-family: var(--font-heading);
+    font-size: clamp(3rem, 11.5vw, 11rem);
+    line-height: 0.88;
+    letter-spacing: -0.045em;
+    font-weight: 700;
+    font-variation-settings: 'wdth' 82;
+  }
+
+  .text-giant {
+    font-family: var(--font-heading);
+    font-size: clamp(2.5rem, 8vw, 7.5rem);
+    line-height: 0.92;
+    letter-spacing: -0.04em;
+    font-weight: 650;
+    font-variation-settings: 'wdth' 85;
+  }
+
+  /* SplitText necesita que el navegador no rebalancee las líneas después de partirlas. */
+  .split-safe {
+    text-wrap: wrap;
+    font-kerning: none;
+  }
+
   .text-display-hero {
     font-size: clamp(2.75rem, 5.4vw + 1.2rem, 5.25rem);
     line-height: 1.03;
@@ -102,9 +130,11 @@
   }
 
   .text-display-h2 {
-    font-size: clamp(1.85rem, 2.6vw + 1.15rem, 3rem);
-    line-height: 1.1;
-    letter-spacing: -0.02em;
+    font-size: clamp(2rem, 3.6vw + 1rem, 4rem);
+    line-height: 1;
+    letter-spacing: -0.035em;
+    font-weight: 650;
+    font-variation-settings: 'wdth' 88;
   }
 
   .text-display-h3 {
@@ -228,4 +258,10 @@
     border-color: rgba(245, 239, 230, 0.4);
     border-width: 1px;
   }
+}
+
+/* Cursor propio activo (solo mouse + movimiento permitido): ocultamos el nativo. */
+.has-cursor,
+.has-cursor * {
+  cursor: none !important;
 }
